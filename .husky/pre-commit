@@ -3,7 +3,4 @@
 
 # npm test
 npx lint-staged
-# npm run lint-staged
-# npm run build:qa
-# npm audit --production
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 const App = () => {
   return (
-    <div>Testing</div>
+    <div>Testing {process.env.REACT_APP_SECREAT_KEY}</div>
   )
 }
 

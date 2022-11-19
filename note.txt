@@ -1,0 +1,13 @@
+    
+     using dotenv npm package
+    // "start": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=.env.local",
+    // "start:qa": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=.env.qa",
+    // "start:preprod": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=.env.preprod",
+
+
+
+
+  using env-cmd npm package
+      "start": "env-cmd -f .env.local react-scripts start",
+    "start:qa": "env-cmd -f .env.qa react-scripts start",
+    "start:preprod": "env-cmd -f .env.preprod react-scripts start",

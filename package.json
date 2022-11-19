@@ -8,21 +8,25 @@
     "@testing-library/user-event": "^13.5.0",
     "dotenv": "^16.0.3",
     "env-cmd": "^10.1.0",
+    "husky-init": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-        "start": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=.env.local",
+    "start": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=.env.local",
     "start:qa": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=.env.qa",
     "start:preprod": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=.env.preprod",
-
-    "build":  "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.local",
-    "build:qa":  "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.qa",
-    "build:preprod":"node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.preprod",
+    "build": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.local",
+    "build:qa": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.qa",
+    "build:preprod": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.preprod",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.jsx ./src",
+    "lint:fix": "eslint  --fix --ext .js,.jsx ./src ",
+    "format": "prettier ",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +44,25 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint"
     ]
   }
 }

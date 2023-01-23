@@ -21,6 +21,7 @@
     "build": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.local",
     "build:qa": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.qa",
     "build:preprod": "node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js build dotenv_config_path=.env.preprod",
+    "regenerate-lockfile": "sh ./regenratelock.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx ./src",

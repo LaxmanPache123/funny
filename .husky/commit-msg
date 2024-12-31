@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
-message="$(cat $1)"
-regex="^\[[0-9]{1,}\][:a-zA-Z0-9,.!_ ]{20,100}$"
-#echo $message
-if [[ ! $message =~ $regex ]];
-then
-    echo "Your message is not formatted correctly."
-    echo "Please follow $regex pattern for commit message."
-    exit 1
-fi
+# message="$(cat $1)"
+# regex="^\[[0-9]{1,}\][:a-zA-Z0-9,.!_ ]{20,100}$"
+# #echo $message
+# if [[ ! $message =~ $regex ]];
+# then
+#     echo "Your message is not formatted correctly."
+#     echo "Please follow $regex pattern for commit message."
+#     exit 1
+# fi

@@ -19,5 +19,5 @@ else
 fi
 
 # npm test
-npx lint-staged
+npm run lint-staged
 

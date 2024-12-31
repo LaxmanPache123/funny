@@ -1,6 +1,7 @@
 import React from 'react'
 
 function App() {
+  const unusedVariable = 'I am not used anywhere'
   return (
     <div>
       Testisdsfddsfsdsnfsddssdfsfsssdddfsfgsss sdsd sdftesting runner{' '}

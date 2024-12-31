@@ -1,0 +1,54 @@
+name: PR ESLint Check
+
+on:
+  push:
+    branches:
+      - main
+  # pull_request:
+  #   branches:
+  #     - main
+
+jobs:
+  eslint-check:
+    runs-on: self-hosted
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16 # Replace with your Node.js version
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Get Changed Files in PR
+      - name: Get Changed Files
+        id: changed-files
+        run: |
+          git diff --name-only origin/main...HEAD -- '*.js' '*.jsx' '*.ts' '*.tsx' > changed-files.txt
+          echo "Changed files:"
+          cat changed-files.txt
+
+      # Step 5: Run ESLint and Generate Report
+      - name: Run ESLint and Generate Report
+        if: success()
+        run: |
+          if [ -s changed-files.txt ]; then
+            npx eslint $(cat changed-files.txt) -f json -o eslint-report.json || true
+          else
+            echo "No JavaScript/TypeScript files were changed."
+        continue-on-error: true
+
+      # Step 6: Upload ESLint Report as an Artifact
+      - name: Upload ESLint Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: eslint-report
+          path: eslint-report.json

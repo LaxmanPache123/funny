@@ -20,4 +20,6 @@
 
 # npm test
 npm run lint-staged
+npm run build
+npm audit --omit dev
 

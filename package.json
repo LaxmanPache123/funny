@@ -24,11 +24,10 @@
     "regenerate-lockfile": "sh ./regenratelock.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .js,.jsx ./src",
-    "lint:fix": "eslint  --fix --ext .js,.jsx ./src ",
-    "format": "prettier ",
-     "lint-staged": "lint-staged",
-    "prepare": "husky install"
+   "lint": "eslint --ext .js,.jsx ./src",
+    "lint:fix": "eslint --fix --ext .js,.jsx ./src ",
+    "prettier": "prettier src -check",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [

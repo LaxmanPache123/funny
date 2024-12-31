@@ -8,4 +8,4 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Check Runner
-        run: echo "Self-hosted runner is working!"
+        run: echo "Self-hosted runner is   working😂!"

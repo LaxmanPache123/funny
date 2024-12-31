@@ -1,22 +1,22 @@
 #!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
-FILES=$(git diff --cached --name-only --diff-filter=ACMR )
-myarray=($FILES)
-file1="src/App.css"
-file2="src/App.jsx"
-echo ${myarray[@]}
-if [[ " ${myarray[*]} " =~ " ${file1} " ]]
-then
-   if [[ " ${myarray[*]} " =~ " ${file2} " ]]
-   then
-      echo "both file are present you can continue to commit"
-    else
-      echo need to change src/App.jsx file also
-      exit 1
-   fi
-else 
-  echo  "file is not exist you can continue"
-fi
+# . "$(dirname "$0")/_/husky.sh"
+# FILES=$(git diff --cached --name-only --diff-filter=ACMR )
+# myarray=($FILES)
+# file1="src/App.css"
+# file2="src/App.jsx"
+# echo ${myarray[@]}
+# if [[ " ${myarray[*]} " =~ " ${file1} " ]]
+# then
+#    if [[ " ${myarray[*]} " =~ " ${file2} " ]]
+#    then
+#       echo "both file are present you can continue to commit"
+#     else
+#       echo need to change src/App.jsx file also
+#       exit 1
+#    fi
+# else 
+#   echo  "file is not exist you can continue"
+# fi
 
 # npm test
 npm run lint-staged

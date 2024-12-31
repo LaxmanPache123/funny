@@ -27,6 +27,7 @@
     "lint": "eslint --ext .js,.jsx ./src",
     "lint:fix": "eslint  --fix --ext .js,.jsx ./src ",
     "format": "prettier ",
+     "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
   "eslintConfig": {

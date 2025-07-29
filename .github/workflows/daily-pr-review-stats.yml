@@ -1,0 +1,39 @@
+name: Daily PR Review Statistics
+
+on:
+  schedule:
+    # Run every 2 minutes
+    - cron: '*/2 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  collect-pr-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm install @octokit/rest
+          npm install csv-writer
+
+      - name: Collect PR Review Stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: node .github/scripts/collect-pr-stats.js
+
+      - name: Commit and push stats
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add pr-review-stats/
+          git diff --staged --quiet || git commit -m "Daily PR review stats - $(date +%Y-%m-%d)"
+          git push

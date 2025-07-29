@@ -1,4 +1,4 @@
-name: Daily PR Review Statistics
+name: PR Review Statistics Collection
 
 on:
   schedule:
@@ -28,12 +28,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_OWNER: ${{ github.repository_owner }}
           REPO_NAME: ${{ github.event.repository.name }}
-        run: node .github/scripts/collect-pr-stats.js
-
-      - name: Commit and push stats
+        run: node .github/scripts/collect-pr-stats.js      - name: Commit and push stats
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add pr-review-stats/
-          git diff --staged --quiet || git commit -m "Daily PR review stats - $(date +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "PR review stats update - $(date +%Y-%m-%d_%H-%M)"
           git push

@@ -6,6 +6,8 @@ const owner = process.env.GITHUB_REPOSITORY.split('/')[0]
 const repo = process.env.GITHUB_REPOSITORY.split('/')[1]
 const today = process.env.TODAY // expect format YYYY-MM-DD
 
+console.log(process.env.GITHUB_REPOSITORY)
+
 // const genrateExcel = (
 //   userCounts,
 //   userCommentCounts,

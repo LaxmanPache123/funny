@@ -1,16 +1,24 @@
-- name: Checkout code
-  uses: actions/checkout@v4
+name: Daily PR Review Summary
 
-- name: Get today's date
-  id: date
-  run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+on:
+  workflow_dispatch:   # Enables manual triggering only
 
-- name: Install dependencies
-  run: |
-    npm install @octokit/core
+jobs:
+  pr-review-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-- name: Run review summary script
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    TODAY: ${{ steps.date.outputs.date }}
-  run: node .github/scripts/pr_review_summary.js
+      - name: Get today's date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: npm install @octokit/core
+
+      - name: Run review summary script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TODAY: ${{ steps.date.outputs.date }}
+        run: node .github/scripts/pr_review_summary.js

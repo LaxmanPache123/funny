@@ -16,7 +16,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install @octokit/core
-        run: npm install xlsx
 
       - name: Run review summary script
         env:

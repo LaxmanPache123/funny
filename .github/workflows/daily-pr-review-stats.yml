@@ -1,37 +1,25 @@
-name: PR Review Statistics Collection
+name: Daily PR Review Summary
 
 on:
   schedule:
-    # Run every 2 minutes
-    - cron: '*/2 * * * *'
-  workflow_dispatch: # Allow manual trigger
+    - cron: '0 16 * * *' # every day at 4pm UTC (adjust as needed)
+  workflow_dispatch:      # to allow manual triggering
 
 jobs:
-  collect-pr-stats:
+  pr-review-summary:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+      - name: Get today's date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
-      - name: Install dependencies
-        run: |
-          npm install @octokit/rest
-          npm install csv-writer
-
-      - name: Collect PR Review Stats
+      - name: Run review summary script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
-        run: node .github/scripts/collect-pr-stats.js      - name: Commit and push stats
+          TODAY: ${{ steps.date.outputs.date }}
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add pr-review-stats/
-          git diff --staged --quiet || git commit -m "PR review stats update - $(date +%Y-%m-%d_%H-%M)"
-          git push
+          npm install -g @octokit/core
+          node .github/scripts/pr_review_summary.js

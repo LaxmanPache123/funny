@@ -114,9 +114,19 @@ async function main() {
       }
     }
 
+    // Count PRs raised today per user
+    const raisedTodayCountsPerUser = {}
+    for (const pr of prs) {
+      if (pr.created_at && pr.created_at.startsWith(today)) {
+        const user = pr.user.login
+        raisedTodayCountsPerUser[user] = (raisedTodayCountsPerUser[user] || 0) + 1
+      }
+    }
+
     console.log("Today's PR Review Count per user:", userCounts)
     console.log("Today's Review Comment Count per user:", userCommentCounts)
     console.log(`Today's total merged PRs: ${mergedTodayCount}`)
+    console.log("Today's PRs raised per user:", raisedTodayCountsPerUser)
   } catch (error) {
     console.error('Error fetching PR data:', error)
   }

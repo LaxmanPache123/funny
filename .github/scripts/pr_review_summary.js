@@ -86,9 +86,20 @@ async function main() {
     // Flatten all reviews arrays
     const allReviews = allReviewsPerPR.flat()
 
-    // Count reviews submitted today per user
+    // // Count reviews submitted today per user
+    // for (const review of allReviews) {
+    //   if (review.submitted_at && review.submitted_at.startsWith(today)) {
+    //     const user = review.user.login
+    //     userCounts[user] = (userCounts[user] || 0) + 1
+    //   }
+    // }
+    // Count reviews submitted today per user with approved or changes requested states
     for (const review of allReviews) {
-      if (review.submitted_at && review.submitted_at.startsWith(today)) {
+      if (
+        review.submitted_at &&
+        review.submitted_at.startsWith(today) &&
+        (review.state === 'APPROVED' || review.state === 'CHANGES_REQUESTED')
+      ) {
         const user = review.user.login
         userCounts[user] = (userCounts[user] || 0) + 1
       }

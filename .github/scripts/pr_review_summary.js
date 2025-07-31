@@ -1,9 +1,76 @@
 const { Octokit } = require('@octokit/core')
+const xlsx = require('xlsx')
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN })
 
 const owner = process.env.GITHUB_REPOSITORY.split('/')[0]
 const repo = process.env.GITHUB_REPOSITORY.split('/')[1]
 const today = process.env.TODAY // expect format YYYY-MM-DD
+
+const genrateExcel = (
+  userCounts,
+  userCommentCounts,
+  raisedTodayCountsPerUser,
+  mergedTodayCount
+) => {
+  try {
+    // ... your existing code to fetch data
+
+    // After console logs, create Excel workbook and sheets
+
+    // Prepare data arrays for each sheet:
+    // For example, convert objects {user: count} to arrays like [{User, Count}, ...]
+
+    const reviewCountData = Object.entries(userCounts).map(([user, count]) => ({
+      User: user,
+      'PR Reviews (Approved/Changes Requested)': count,
+    }))
+
+    const commentCountData = Object.entries(userCommentCounts).map(
+      ([user, count]) => ({
+        User: user,
+        'Review Comments': count,
+      })
+    )
+
+    const raisedPRsPerUserData = Object.entries(raisedTodayCountsPerUser).map(
+      ([user, count]) => ({
+        User: user,
+        'PRs Raised': count,
+      })
+    )
+
+    // Create a new workbook
+    const workbook = xlsx.utils.book_new()
+
+    // Convert data arrays to worksheets
+    const wsReviewCounts = xlsx.utils.json_to_sheet(reviewCountData)
+    const wsCommentCounts = xlsx.utils.json_to_sheet(commentCountData)
+    const wsRaisedPRs = xlsx.utils.json_to_sheet(raisedPRsPerUserData)
+
+    // Append worksheets to the workbook with sheet names
+    xlsx.utils.book_append_sheet(workbook, wsReviewCounts, 'PR Review Counts')
+    xlsx.utils.book_append_sheet(workbook, wsCommentCounts, 'Review Comments')
+    xlsx.utils.book_append_sheet(workbook, wsRaisedPRs, 'PRs Raised')
+
+    // Add summary sheet with total merged PRs and total PRs raised
+    const summaryData = [
+      { Metric: 'Total PRs Merged Today', Count: mergedTodayCount },
+      {
+        Metric: 'Total PRs Raised Today',
+        Count: Object.values(raisedTodayCountsPerUser).reduce((a, b) => a + b, 0),
+      },
+    ]
+    const wsSummary = xlsx.utils.json_to_sheet(summaryData)
+    xlsx.utils.book_append_sheet(workbook, wsSummary, 'Summary')
+
+    // Write workbook to file
+    xlsx.writeFile(workbook, 'PRDataSummary.xlsx')
+
+    console.log('Excel file PRDataSummary.xlsx has been generated successfully.')
+  } catch (error) {
+    console.error('Error fetching PR data or generating Excel:', error)
+  }
+}
 
 // Helper to fetch all pages of a paginated endpoint
 async function fetchAllPages(method, params) {
@@ -127,6 +194,12 @@ async function main() {
     console.log("Today's Review Comment Count per user:", userCommentCounts)
     console.log(`Today's total merged PRs: ${mergedTodayCount}`)
     console.log("Today's PRs raised per user:", raisedTodayCountsPerUser)
+    genrateExcel(
+      userCounts,
+      userCommentCounts,
+      raisedTodayCountsPerUser,
+      mergedTodayCount
+    )
   } catch (error) {
     console.error('Error fetching PR data:', error)
   }
